@@ -5,12 +5,11 @@ import Col from "react-bootstrap/Col"
 
 const HomePage: React.FC = () => {
 
-
     return (
         <Container>
             <Row className="justify-content-center mt-5">
                 <Col xs={12} md={6} className="w-auto">
-                    <h1>Hello World</h1>
+                    <h1>Task Manager</h1>
                 </Col>
             </Row>
         </Container>
