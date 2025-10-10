@@ -5,7 +5,7 @@ type LogoutButtonProps = {
 };
 
 const LogoutButton: React.FC<LogoutButtonProps> = ({ onLogoutClick }) => {
-    return <Button onClick={onLogoutClick}>Login</Button>;
+    return <Button onClick={onLogoutClick}>Logout</Button>;
 };
 
 export default LogoutButton;

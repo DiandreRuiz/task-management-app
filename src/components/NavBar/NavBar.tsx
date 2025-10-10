@@ -1,6 +1,7 @@
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
+import LoginLogoutButtons from './LoginLogoutButtons';
 
 function AppNavbar() {
   return (
@@ -12,6 +13,7 @@ function AppNavbar() {
           <Nav className="ms-auto">
             <Nav.Link href="#home">Dashboard</Nav.Link>
             <Nav.Link href="#features">Tasks</Nav.Link>
+            <LoginLogoutButtons isLoggedIn={true} />
           </Nav>
         </Navbar.Collapse>
       </Container>
