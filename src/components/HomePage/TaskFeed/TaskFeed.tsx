@@ -10,7 +10,7 @@ const TaskFeed: React.FC = () => {
     return (
         <Container>
             {tasks.length === 0 ? (
-                <Row className="text-center">
+                <Row className="text-center mt-3">
                     <p className="text-muted">No tasks yet. Add some tasks to get started!</p>
                 </Row>
             ) : (
