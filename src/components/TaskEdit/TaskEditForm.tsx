@@ -9,6 +9,8 @@ type TaskEditFormProps = Task & {
 };
 
 const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, completed, taskGroup, onSave }) => {
+    // REMINDER: We aren't actually updating a backend we're just showcasing an understanding of the context API
+    // so we'll just use that context API for global state of tasks
     const { updateTask } = useTasks();
     const [taskName, setTaskName] = useState(name);
     const [taskDescription, setTaskDescription] = useState(description);
