@@ -3,16 +3,8 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import TaskFeed from "./TaskFeed/TaskFeed";
-import TaskList from "../TaskList";
-import type { Todo } from "../TaskList";
-
 const HomePage: React.FC = () => {
     // Simulate grabbing tasks from backend
-    const tasks: Todo[] = [
-        { id: 0, task: "take out trash", taskList: null, completed: false },
-        { id: 1, task: "take out dog", taskList: null, completed: false },
-        { id: 2, task: "take out dishses", taskList: null, completed: false },
-    ];
 
     return (
         <Container>
@@ -22,10 +14,7 @@ const HomePage: React.FC = () => {
                 </Col>
             </Row>
             <Row className="bg-success">
-                <TaskFeed tasks={tasks} />
-            </Row>
-            <Row>
-                <TaskList />
+                <TaskFeed />
             </Row>
         </Container>
     );

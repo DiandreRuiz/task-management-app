@@ -1,19 +1,16 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
-import Button from "react-bootstrap/Button"
-import type { Todo } from "../TaskList";
+import { useTasks } from "../../../contexts/TaskContext";
 
-type UserTaskListType = {
-    tasks: Todo[];
-};
-
-const TaskFeed: React.FC<UserTaskListType> = ({ tasks }) => {
+const TaskFeed: React.FC = () => {
+    const { tasks } = useTasks();
+    
     return (
         <Container>
             {tasks.map((t) => (
                 <Row>
                     <p>
-                        task: {t.task} | t-list: {t.taskList ? t.taskList : "none"} | completed: {t.completed ? "✅" : "❌"} <Button /> <Button /> <Button />
+                        Name: {t.name} | Group: {t.taskGroup ? t.taskGroup : "none"} | Description: {t.description} | completed: {t.completed ? "✅" : "❌"}
                     </p>
                 </Row>
             ))}

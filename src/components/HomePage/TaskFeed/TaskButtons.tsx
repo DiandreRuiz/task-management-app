@@ -1,7 +1,13 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
 
-const TaskButtons: React.FC<TaskButtonHandlers> = ({ onView, onEdit, onDelete }) => {
+type TaskFeedButtonHandlersProp = {
+    onView: () => void;
+    onEdit: () => void;
+    onDelete: () => void;
+};
+
+const TaskButtons: React.FC<TaskFeedButtonHandlersProp> = ({ onView, onEdit, onDelete }) => {
     return (
         <>
             <Button onClick={onView} />
@@ -11,4 +17,4 @@ const TaskButtons: React.FC<TaskButtonHandlers> = ({ onView, onEdit, onDelete })
     );
 };
 
-export default TaskButtons
+export default TaskButtons;
