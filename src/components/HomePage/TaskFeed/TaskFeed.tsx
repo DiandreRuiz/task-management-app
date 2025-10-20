@@ -1,5 +1,6 @@
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
+import Col from "react-bootstrap/Col";
 import { useTasks } from "../../../contexts/TaskContext";
 import TaskButtons from "./TaskButtons";
 
@@ -8,20 +9,24 @@ const TaskFeed: React.FC = () => {
 
     return (
         <Container>
-            <Row className="text-center">
-                {tasks.length === 0 ? (
+            {tasks.length === 0 ? (
+                <Row className="text-center">
                     <p className="text-muted">No tasks yet. Add some tasks to get started!</p>
-                ) : (
-                    tasks.map((t) => (
-                        <Row key={t.name} className="bg-light p-3 rounded-3">
-                            <p>
+                </Row>
+            ) : (
+                tasks.map((t) => (
+                    <Row key={t.name} className="bg-light p-3 rounded-3 align-items-center justify-content-center">
+                        <Col md={"auto"} xs={12}>
+                            <p className="mb-0">
                                 Name: {t.name} | Group: {t.taskGroup ? t.taskGroup : "none"} | Description: {t.description} | completed: {t.completed ? "✅" : "❌"}
-                                <TaskButtons onView={() => viewTask(t.name)} onEdit={() => updateTask(t.name, { description: "new description" })} onDelete={() => removeTask(t.name)} />
                             </p>
-                        </Row>
-                    ))
-                )}
-            </Row>
+                        </Col>
+                        <Col md={"auto"} xs={12} className="d-flex gap-3 w-auto align-items-center">
+                            <TaskButtons onView={() => viewTask(t.name)} onEdit={() => updateTask(t.name, { description: "new description" })} onDelete={() => removeTask(t.name)} />
+                        </Col>
+                    </Row>
+                ))
+            )}
         </Container>
     );
 };

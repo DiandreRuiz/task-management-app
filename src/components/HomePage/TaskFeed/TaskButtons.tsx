@@ -11,9 +11,9 @@ type TaskFeedButtonHandlersProp = {
 const TaskButtons: React.FC<TaskFeedButtonHandlersProp> = ({ onView, onEdit, onDelete }) => {
     return (
         <>
-            <Button onClick={onView} />
-            <Button onClick={onEdit} />
-            <Button onClick={onDelete} />
+            <Button onClick={onView}>View</Button>
+            <Button onClick={onEdit}>Edit</Button>
+            <Button onClick={onDelete}>Delete</Button>
         </>
     );
 };
