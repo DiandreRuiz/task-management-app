@@ -5,7 +5,7 @@ import { useTasks } from "../../../contexts/TaskContext";
 import TaskButtons from "./TaskButtons";
 
 const TaskFeed: React.FC = () => {
-    const { tasks, updateTask, removeTask, viewTask } = useTasks();
+    const { tasks, removeTask, viewTask } = useTasks();
 
     return (
         <Container>
@@ -22,7 +22,7 @@ const TaskFeed: React.FC = () => {
                             </p>
                         </Col>
                         <Col md={"auto"} xs={12} className="d-flex gap-3 w-auto align-items-center">
-                            <TaskButtons onView={() => viewTask(t.name)} onEdit={() => updateTask(t.name, { description: "new description" })} onDelete={() => removeTask(t.name)} />
+                            <TaskButtons onView={() => viewTask(t.name)} onEdit={() => openEditModal(t.name)} onDelete={() => removeTask(t.name)} />
                         </Col>
                     </Row>
                 ))
