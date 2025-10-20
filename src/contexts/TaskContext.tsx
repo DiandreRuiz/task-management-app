@@ -13,6 +13,7 @@ type TaskContextType = {
     addTask: (task: Task) => void;
     removeTask: (name: string) => void;
     updateTask: (name: string, updates: Partial<Task>) => void;
+    viewTask: (name: string) => Task | null;
 };
 
 export const TaskContext = createContext<TaskContextType | undefined>(undefined);
@@ -38,7 +39,16 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
         );
     }, []);
 
-    return <TaskContext.Provider value={{ tasks, addTask, removeTask, updateTask }}>{children}</TaskContext.Provider>;
+    // Need a function to view a task
+    const viewTask = useCallback((name: string): Task | null => {
+        const task = tasks.find((t) => t.name === name);
+        if (task) {
+            return task;
+        }
+        return null;
+    }, [tasks]);
+
+    return <TaskContext.Provider value={{ tasks, addTask, removeTask, updateTask, viewTask }}>{children}</TaskContext.Provider>;
 };
 
 export const useTasks = () => {

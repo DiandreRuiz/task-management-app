@@ -1,8 +1,9 @@
 import React from "react";
 import Button from "react-bootstrap/Button";
+import type { Task } from "../../../contexts/TaskContext";
 
 type TaskFeedButtonHandlersProp = {
-    onView: () => void;
+    onView: () => Task | null;
     onEdit: () => void;
     onDelete: () => void;
 };
