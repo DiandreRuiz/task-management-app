@@ -3,15 +3,18 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import { useTasks } from "../../contexts/TaskContext";
 const AddTaskForm: React.FC = () => {
-    const { addTask } = useTasks();
+    const { tasks, addTask } = useTasks();
     const [taskName, setTaskName] = useState<string>("");
     const [taskDescription, setTaskDescription] = useState<string>("");
-
-    // NEED TO FIX BUG WHERE YOU CAN CREATE 2 TASKS WITH THE SAME NAME
-
+    
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (taskName.trim() === "" || taskDescription.trim() === "") {
+            return;
+        }
+        if (tasks.some((t) => t.name === taskName)) {
+            // Lazy alert lol
+            alert("Task name already exists");
             return;
         }
         addTask({ name: taskName, description: taskDescription, completed: false, taskGroup: null, owner: null });
