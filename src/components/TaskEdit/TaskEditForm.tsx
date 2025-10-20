@@ -4,7 +4,11 @@ import Button from "react-bootstrap/Button";
 import type { Task } from "../../contexts/TaskContext";
 import { useTasks } from "../../contexts/TaskContext";
 
-const TaskEdit: React.FC<Task> = ({ name, description, completed, taskGroup }) => {
+type TaskEditFormProps = Task & {
+    onSave?: () => void;
+};
+
+const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, completed, taskGroup, onSave }) => {
     const { updateTask } = useTasks();
     const [taskName, setTaskName] = useState(name);
     const [taskDescription, setTaskDescription] = useState(description);
@@ -74,6 +78,11 @@ const TaskEdit: React.FC<Task> = ({ name, description, completed, taskGroup }) =
         } else {
             console.log("No changes detected, skipping update");
         }
+        
+        // Close the modal after saving (whether changes were made or not)
+        if (onSave) {
+            onSave();
+        }
     };
 
     return (
@@ -101,4 +110,4 @@ const TaskEdit: React.FC<Task> = ({ name, description, completed, taskGroup }) =
     );
 };
 
-export default TaskEdit;
+export default TaskEditForm;
