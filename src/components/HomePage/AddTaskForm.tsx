@@ -7,6 +7,8 @@ const AddTaskForm: React.FC = () => {
     const [taskName, setTaskName] = useState<string>("");
     const [taskDescription, setTaskDescription] = useState<string>("");
 
+    // NEED TO FIX BUG WHERE YOU CAN CREATE 2 TASKS WITH THE SAME NAME
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (taskName.trim() === "" || taskDescription.trim() === "") {
