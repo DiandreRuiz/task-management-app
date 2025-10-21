@@ -43,6 +43,8 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
                     task.taskColor = color;
                     setAssignedTaskColors((prev) => ({ ...prev, [currentTaskGroup]: color }));
                 }
+            } else {
+                task.taskColor = null;
             }
         },
         [assignedTaskColors]
@@ -64,17 +66,24 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 
     const updateTask = useCallback(
         (name: string, updates: Partial<Task>) => {
-            setTasks((prev) =>
-                prev.map((task) =>
-                    task.name === name
-                        ? { ...task, ...updates } // Immutable update: spread existing task + new updates
-                        : task
-                )
-            );
-            const updatedTask = tasks.find((t) => t.name === name);
-            if (updatedTask) {
-                updateTaskGroupDetails(updatedTask);
+            // 1. Find appropriate task to update
+            // 2a. If taskGroup is updated, run taskGroupDetails update function
+            // 3a. Add updates to context state
+            // 2b. If not add the updates to context state
+            let taskToUpdate = tasks.find((t) => t.name === name);
+            if (!taskToUpdate) {
+                alert(`Could not find task name: ${name}`);
+                return;
             }
+
+            taskToUpdate = { ...taskToUpdate, ...updates };
+
+            // If we change task group, make sure to run updateTaskGroupDetails
+            if ("taskGroup" in updates) {
+                updateTaskGroupDetails(taskToUpdate);
+            }
+
+            setTasks((prev) => prev.map((task) => (task.name === name ? taskToUpdate : task)));
         },
         [tasks, updateTaskGroupDetails]
     );
