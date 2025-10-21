@@ -10,7 +10,7 @@ type Auth0ProviderWithNavigateProps = {
 const Auth0ProviderWithNavigate: React.FC<Auth0ProviderWithNavigateProps> = ({ children }) => {
     const DOMAIN = "dev-2u70c1requq1vsqk.us.auth0.com";
     const AUTH0_CLIENTID = "q7xzrwLjo9HpHMsRF44VuawVERsCjiOe";
-    const AUTH0_REDIRECT_URI = "http://localhost:5173/callback";
+    const AUTH0_REDIRECT_URI = "http://localhost:5173/dashboard";
     const navigate = useNavigate();
 
     const onRedirectCallback = (appState: any) => {
