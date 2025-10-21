@@ -24,11 +24,7 @@ const TaskFeed: React.FC = () => {
 
     return (
         <Container>
-            <TaskEditModal 
-                show={showEditModal} 
-                onHide={handleCloseModal}
-                task={selectedTask}
-            />
+            <TaskEditModal show={showEditModal} onHide={handleCloseModal} task={selectedTask} />
             {tasks.length === 0 ? (
                 <Row className="text-center mt-3">
                     <p className="text-muted">No tasks yet. Add some tasks to get started!</p>
@@ -38,15 +34,14 @@ const TaskFeed: React.FC = () => {
                     <Row key={t.name} className="bg-light p-3 rounded-3 align-items-center justify-content-center">
                         <Col md={"auto"} xs={12}>
                             <p className="mb-0">
-                                Name: {t.name} | Group: {t.taskGroup ? t.taskGroup : "none"} | Description: {t.description} | completed: {t.completed ? "✅" : "❌"}
+                                <b>Name:</b> {t.name}
+                                <b>Group:</b> {t.taskGroup ? t.taskGroup : "none"}
+                                <b>Description:</b> {t.description}
+                                <b>Completed:</b> {t.completed ? "✅" : "❌"}
                             </p>
                         </Col>
                         <Col md={"auto"} xs={12} className="d-flex gap-3 w-auto align-items-center">
-                            <TaskButtons 
-                                onView={() => viewTask(t.name)} 
-                                onEdit={() => handleEditTask(t)} 
-                                onDelete={() => removeTask(t.name)} 
-                            />
+                            <TaskButtons onView={() => viewTask(t.name)} onEdit={() => handleEditTask(t)} onDelete={() => removeTask(t.name)} />
                         </Col>
                     </Row>
                 ))

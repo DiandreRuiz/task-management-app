@@ -19,9 +19,17 @@ const AddTaskForm: React.FC = () => {
             return;
         }
         // Task color assignment is handled by task group reconcilation within context
-        addTask({ name: taskName, description: taskDescription, completed: false, taskGroup: taskGroup, owner: null, taskColor: null });
+        addTask({
+            name: taskName,
+            description: taskDescription,
+            completed: false,
+            taskGroup: taskGroup ? taskGroup : null,
+            owner: null,
+            taskColor: null,
+        });
         setTaskName("");
         setTaskDescription("");
+        setTaskGroup("");
     };
 
     return (
