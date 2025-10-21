@@ -3,15 +3,13 @@ import dotenv from "dotenv";
 import { Auth0Provider } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
 
-dotenv.config();
-
 type Auth0ProviderWithNavigateProps = {
     children: React.ReactNode;
 };
 
 const Auth0ProviderWithNavigate: React.FC<Auth0ProviderWithNavigateProps> = ({ children }) => {
-    const DOMAIN = process.env.AUTH0_DOMAIN;
-    const AUTH0_CLIENTID = process.env.AUTH0_CLIENTID;
+    const DOMAIN = "dev-2u70c1requq1vsqk.us.auth0.com";
+    const AUTH0_CLIENTID = "q7xzrwLjo9HpHMsRF44VuawVERsCjiOe";
     const AUTH0_REDIRECT_URI = "http://localhost:5173/callback";
     const navigate = useNavigate();
 
