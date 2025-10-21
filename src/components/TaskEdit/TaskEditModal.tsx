@@ -7,7 +7,7 @@ type TaskEditModalProps = {
     show: boolean;
     onHide: () => void;
     task: Task | null;
-}
+};
 
 const TaskEditModal: React.FC<TaskEditModalProps> = ({ show, onHide, task }) => {
     if (!task) return null; // Don't render if no task selected
@@ -18,18 +18,9 @@ const TaskEditModal: React.FC<TaskEditModalProps> = ({ show, onHide, task }) => 
                 <Modal.Title>Edit Task: {task.name}</Modal.Title>
             </Modal.Header>
             <Modal.Body>
-                <TaskEditForm 
-                    owner={task.owner}
-                    name={task.name}
-                    description={task.description}
-                    completed={task.completed}  
-                    taskGroup={task.taskGroup}
-                    onSave={onHide}
-                />
+                <TaskEditForm owner={task.owner} name={task.name} description={task.description} completed={task.completed} taskGroup={task.taskGroup} taskColor={task.taskColor} onSave={onHide} />
             </Modal.Body>
-            <Modal.Footer>
-                {/* No close button - user can use the X in the header */}
-            </Modal.Footer>
+            <Modal.Footer>{/* No close button - user can use the X in the header */}</Modal.Footer>
         </Modal>
     );
 };

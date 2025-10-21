@@ -6,7 +6,7 @@ const AddTaskForm: React.FC = () => {
     const { tasks, addTask } = useTasks();
     const [taskName, setTaskName] = useState<string>("");
     const [taskDescription, setTaskDescription] = useState<string>("");
-    
+
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
         if (taskName.trim() === "" || taskDescription.trim() === "") {
@@ -31,6 +31,12 @@ const AddTaskForm: React.FC = () => {
             <Form.Group className="mb-3" controlId="taskDescription">
                 <Form.Label>Task Description</Form.Label>
                 <Form.Control type="text" placeholder="Enter task description" value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} />
+            </Form.Group>
+            <Form.Group className="mb-3" controlId="taskGroup">
+                <Form.Label>Task Group</Form.Label>
+                <Form.Select aria-label="Default select example">
+                    
+                </Form.Select>
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100">
                 Add Task

@@ -6,6 +6,7 @@ export type Task = {
     description: string;
     completed: boolean;
     taskGroup: string | null;
+    taskColor: string | null;
 };
 
 type TaskContextType = {
@@ -14,16 +15,44 @@ type TaskContextType = {
     removeTask: (name: string) => void;
     updateTask: (name: string, updates: Partial<Task>) => void;
     viewTask: (name: string) => Task | null;
+    getTasksFromGroup: (taskGroup: string) => Task[] | null;
 };
+
+function getRandomColor(): string {
+    const r = Math.floor(Math.random() * 256); // 0–255
+    const g = Math.floor(Math.random() * 256);
+    const b = Math.floor(Math.random() * 256);
+    return `rgb(${r}, ${g}, ${b})`;
+}
 
 export const TaskContext = createContext<TaskContextType | undefined>(undefined);
 
 export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     const [tasks, setTasks] = useState<Task[]>([]);
+    const [assignedTaskColors, setAssignedTaskColors] = useState<Record<string, string>>({});
 
-    const addTask = useCallback((task: Task) => {
-        setTasks((prev) => [...prev, task]);
-    }, []);
+    const addTask = useCallback(
+        (task: Task) => {
+            // Make sure the task created has a group in the first place
+            // Then assign task color for this group
+            const currentTaskGroup = task.taskGroup;
+            if (currentTaskGroup !== null) {
+                // Check for that group's color if there is a matching group already otherwise pick a new one
+                const existingGroupColor = currentTaskGroup in assignedTaskColors ? assignedTaskColors[currentTaskGroup] : undefined;
+                if (existingGroupColor) {
+                    task.taskColor = existingGroupColor;
+                } else {
+                    const color = getRandomColor();
+                    if (color) {
+                        task.taskColor = color;
+                        setAssignedTaskColors((prev) => ({ ...prev, [currentTaskGroup]: color }));
+                    }
+                }
+            }
+            setTasks((prev) => [...prev, task]);
+        },
+        [assignedTaskColors]
+    );
 
     const removeTask = useCallback((targetTaskName: string) => {
         setTasks((prev) => prev.filter((t) => t.name !== targetTaskName));
@@ -40,15 +69,26 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     }, []);
 
     // Need a function to view a task
-    const viewTask = useCallback((name: string): Task | null => {
-        const task = tasks.find((t) => t.name === name);
-        if (task) {
-            return task;
-        }
-        return null;
-    }, [tasks]);
+    const viewTask = useCallback(
+        (name: string): Task | null => {
+            const task = tasks.find((t) => t.name === name);
+            if (task) {
+                return task;
+            }
+            return null;
+        },
+        [tasks]
+    );
 
-    return <TaskContext.Provider value={{ tasks, addTask, removeTask, updateTask, viewTask }}>{children}</TaskContext.Provider>;
+    const getTasksFromGroup = useCallback(
+        (taskGroup: string): Task[] | null => {
+            const tasksFromGroup = tasks.filter((t) => t.taskGroup === taskGroup);
+            return tasksFromGroup;
+        },
+        [tasks]
+    );
+
+    return <TaskContext.Provider value={{ tasks, addTask, removeTask, updateTask, viewTask, getTasksFromGroup }}>{children}</TaskContext.Provider>;
 };
 
 export const useTasks = () => {
