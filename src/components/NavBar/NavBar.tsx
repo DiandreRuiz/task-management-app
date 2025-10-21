@@ -15,7 +15,7 @@ function AppNavbar() {
                     <Nav className="ms-auto">
                         <Nav.Link href="/dashboard">Dashboard</Nav.Link>
                         <Nav.Link href="/tasks">Tasks</Nav.Link>
-                        <LoginLogoutButtons isLoggedIn={true} />
+                        <LoginLogoutButtons />
                     </Nav>
                 </Navbar.Collapse>
             </Container>

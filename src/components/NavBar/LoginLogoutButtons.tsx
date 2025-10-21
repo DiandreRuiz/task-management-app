@@ -2,28 +2,12 @@ import LoginButton from "./LoginButton";
 import LogoutButton from "./LogoutButton";
 import Container from "react-bootstrap/Container";
 
-type LoginLogoutButtonsProps = {
-    isLoggedIn: boolean;
-};
-
-const loginClickHandler = (): void => {
-    console.log("Login");
-};
-
-const logoutClickHandler = (): void => {
-    console.log("Logout");
-};
-
-const LoginLogoutButtons: React.FC<LoginLogoutButtonsProps> = ({ isLoggedIn }) => {
+const LoginLogoutButtons: React.FC = () => {
     return (
-        <>
-            {isLoggedIn && (
-                <Container className="d-flex gap-2 justify-content-center">
-                    <LoginButton onLoginClick={loginClickHandler} />
-                    <LogoutButton onLogoutClick={logoutClickHandler} />
-                </Container>
-            )}
-        </>
+        <Container className="d-flex gap-2 justify-content-center">
+            <LoginButton />
+            <LogoutButton />
+        </Container>
     );
 };
 

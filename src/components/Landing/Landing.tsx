@@ -16,7 +16,7 @@ const Landing: React.FC = () => {
             </Row>
             <Row>
                 <Col className="text-center d-flex justify-content-center gap-2">
-                    <LoginLogoutButtons isLoggedIn={true} />
+                    <LoginLogoutButtons />
                 </Col>
             </Row>
         </Container>
