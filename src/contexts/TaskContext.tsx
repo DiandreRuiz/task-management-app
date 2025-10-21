@@ -31,42 +31,53 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
     const [tasks, setTasks] = useState<Task[]>([]);
     const [assignedTaskColors, setAssignedTaskColors] = useState<Record<string, string>>({});
 
-    const addTask = useCallback(
+    const updateTaskGroupDetails = useCallback(
         (task: Task) => {
-            // Make sure the task created has a group in the first place
-            // Then assign task color for this group
             const currentTaskGroup = task.taskGroup;
             if (currentTaskGroup !== null) {
-                // Check for that group's color if there is a matching group already otherwise pick a new one
                 const existingGroupColor = currentTaskGroup in assignedTaskColors ? assignedTaskColors[currentTaskGroup] : undefined;
                 if (existingGroupColor) {
                     task.taskColor = existingGroupColor;
                 } else {
                     const color = getRandomColor();
-                    if (color) {
-                        task.taskColor = color;
-                        setAssignedTaskColors((prev) => ({ ...prev, [currentTaskGroup]: color }));
-                    }
+                    task.taskColor = color;
+                    setAssignedTaskColors((prev) => ({ ...prev, [currentTaskGroup]: color }));
                 }
             }
-            setTasks((prev) => [...prev, task]);
         },
         [assignedTaskColors]
+    );
+
+    const addTask = useCallback(
+        (task: Task) => {
+            // Make sure the task created has a group in the first place
+            // Then assign task color for this group
+            updateTaskGroupDetails(task);
+            setTasks((prev) => [...prev, task]);
+        },
+        [updateTaskGroupDetails]
     );
 
     const removeTask = useCallback((targetTaskName: string) => {
         setTasks((prev) => prev.filter((t) => t.name !== targetTaskName));
     }, []);
 
-    const updateTask = useCallback((name: string, updates: Partial<Task>) => {
-        setTasks((prev) =>
-            prev.map((task) =>
-                task.name === name
-                    ? { ...task, ...updates } // Immutable update: spread existing task + new updates
-                    : task
-            )
-        );
-    }, []);
+    const updateTask = useCallback(
+        (name: string, updates: Partial<Task>) => {
+            setTasks((prev) =>
+                prev.map((task) =>
+                    task.name === name
+                        ? { ...task, ...updates } // Immutable update: spread existing task + new updates
+                        : task
+                )
+            );
+            const updatedTask = tasks.find((t) => t.name === name);
+            if (updatedTask) {
+                updateTaskGroupDetails(updatedTask);
+            }
+        },
+        [tasks, updateTaskGroupDetails]
+    );
 
     // Need a function to view a task
     const viewTask = useCallback(
