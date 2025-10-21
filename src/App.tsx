@@ -1,6 +1,6 @@
 import { Route, Routes } from "react-router-dom";
 import NavBar from "./components/NavBar/NavBar";
-import HomePage from "./components/HomePage/HomePage";
+import Dashboard from "./components/Dashboard/Dashboard";
 import "bootstrap/dist/css/bootstrap.min.css";
 import "./styles/App.css";
 import { TaskProvider } from "./contexts/TaskContext";
@@ -11,7 +11,7 @@ function App() {
             <TaskProvider>
                 <NavBar />
                 <Routes>
-                    <Route path="/" element={<HomePage />}></Route>
+                    <Route path="/" element={<Dashboard />}></Route>
                 </Routes>
             </TaskProvider>
         </>

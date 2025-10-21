@@ -33,11 +33,8 @@ const TaskFeed: React.FC = () => {
                 tasks.map((t) => (
                     <Row key={t.name} className="bg-light p-3 rounded-3 align-items-center justify-content-center">
                         <Col md={"auto"} xs={12}>
-                            <p className="mb-0">
-                                <b>Name:</b> {t.name}
-                                <b>Group:</b> {t.taskGroup ? t.taskGroup : "none"}
-                                <b>Description:</b> {t.description}
-                                <b>Completed:</b> {t.completed ? "✅" : "❌"}
+                            <p className="mb-0" style={{ backgroundColor: t.taskColor ?? undefined }}>
+                                <b>Name:</b> {t.name} <b>Group:</b> {t.taskGroup ? t.taskGroup : "none"} <b>Description:</b> {t.description} <b>Completed:</b> {t.completed ? "✅" : "❌"}{" "}
                             </p>
                         </Col>
                         <Col md={"auto"} xs={12} className="d-flex gap-3 w-auto align-items-center">

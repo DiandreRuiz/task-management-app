@@ -4,7 +4,7 @@ import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import TaskFeed from "./TaskFeed/TaskFeed";
 import AddTaskForm from "./AddTaskForm";
-const HomePage: React.FC = () => {
+const Dashboard: React.FC = () => {
     // Simulate grabbing tasks from backend
 
     return (
@@ -38,4 +38,4 @@ const HomePage: React.FC = () => {
     );
 };
 
-export default HomePage;
+export default Dashboard;
