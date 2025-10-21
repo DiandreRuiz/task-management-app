@@ -6,6 +6,7 @@ const AddTaskForm: React.FC = () => {
     const { tasks, addTask } = useTasks();
     const [taskName, setTaskName] = useState<string>("");
     const [taskDescription, setTaskDescription] = useState<string>("");
+    const [taskGroup, setTaskGroup] = useState<string>("");
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
@@ -17,7 +18,8 @@ const AddTaskForm: React.FC = () => {
             alert("Task name already exists");
             return;
         }
-        addTask({ name: taskName, description: taskDescription, completed: false, taskGroup: null, owner: null });
+        // Task color assignment is handled by task group reconcilation within context
+        addTask({ name: taskName, description: taskDescription, completed: false, taskGroup: taskGroup, owner: null, taskColor: null });
         setTaskName("");
         setTaskDescription("");
     };
@@ -34,9 +36,7 @@ const AddTaskForm: React.FC = () => {
             </Form.Group>
             <Form.Group className="mb-3" controlId="taskGroup">
                 <Form.Label>Task Group</Form.Label>
-                <Form.Select aria-label="Default select example">
-                    
-                </Form.Select>
+                <Form.Control type="text" placeholder="Enter task group" value={taskGroup} onChange={(e) => setTaskGroup(e.target.value)} />
             </Form.Group>
             <Button variant="primary" type="submit" className="w-100">
                 Add Task
