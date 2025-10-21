@@ -13,8 +13,8 @@ function AppNavbar() {
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
-                        <Nav.Link href="#home">Dashboard</Nav.Link>
-                        <Nav.Link href="#features">Tasks</Nav.Link>
+                        <Nav.Link href="/dashboard">Dashboard</Nav.Link>
+                        <Nav.Link href="/tasks">Tasks</Nav.Link>
                         <LoginLogoutButtons isLoggedIn={true} />
                     </Nav>
                 </Navbar.Collapse>
