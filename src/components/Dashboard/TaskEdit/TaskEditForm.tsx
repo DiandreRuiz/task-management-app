@@ -8,6 +8,11 @@ type TaskEditFormProps = Task & {
     onSave?: () => void;
 };
 
+type ValidationErrorsType = {
+    name: string | null;
+    description: string | null;
+};
+
 const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, completed, taskGroup, onSave }) => {
     // REMINDER: We aren't actually updating a backend we're just showcasing an understanding of the context API
     // so we'll just use that context API for global state of tasks
@@ -16,6 +21,7 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
     const [taskDescription, setTaskDescription] = useState(description);
     const [taskCompleted, setTaskCompleted] = useState(completed);
     const [taskGroupState, setTaskGroupState] = useState(taskGroup ? taskGroup : "");
+    const [validationErrors, setValidationErrors] = useState<ValidationErrorsType>({ name: null, description: null });
     const [errorState, setErrorState] = useState<string | null>(null);
 
     // Store original values for comparison
@@ -24,6 +30,11 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
         description,
         completed,
         taskGroup: taskGroup || null,
+    };
+
+    const validate = () => {
+        if (!taskName.trim()) setValidationErrors((prev) => ({ ...prev, name: "Task name is required" }));
+        if (!taskDescription.trim()) setValidationErrors((prev) => ({ ...prev, description: "Task description is required" }));
     };
 
     // Check if form has any changes (is "dirty")
@@ -47,6 +58,7 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
+        validate();
 
         try {
             // Build updates object with only changed and non-null values
@@ -84,6 +96,7 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
             }
 
             setErrorState(null);
+            setValidationErrors({ name: null, description: null });
             onSave?.();
             // Close the modal after saving (whether changes were made or not)
         } catch (error: unknown) {
@@ -103,11 +116,13 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="taskName">
                 <Form.Label>Task Name</Form.Label>
-                <Form.Control type="text" placeholder={name} value={taskName} onChange={(e) => setTaskName(e.target.value)} />
+                <Form.Control type="text" placeholder={name} value={taskName} onChange={(e) => setTaskName(e.target.value)} required isInvalid={!validationErrors.name} />
+                <Form.Control.Feedback type="invalid">{validationErrors.name}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="taskDescription">
                 <Form.Label>Task Description</Form.Label>
-                <Form.Control type="text" placeholder={description} value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} />
+                <Form.Control type="text" placeholder={description} value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} required isInvalid={!validationErrors.description} />
+                <Form.Control.Feedback type="invalid">{validationErrors.description}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="taskCompleted">
                 <Form.Label>Task Complete</Form.Label>
