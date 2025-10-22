@@ -10,7 +10,7 @@ const Landing: React.FC = () => {
     return (
         <Container className="mt-5">
             <Row>
-                <Col className="text-center">
+                <Col className="text-center mb-3">
                     <h1>Welcome to the Task Management App</h1>
                 </Col>
             </Row>
