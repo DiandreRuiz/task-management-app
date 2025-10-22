@@ -7,6 +7,8 @@ import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
 import Button from "react-bootstrap/Button";
 import styles from "../../styles/TaskView.module.css";
+import TaskEditModal from "../Dashboard/TaskEdit/TaskEditModal";
+import { useEditModal } from "../../hooks/useTaskEditModal";
 
 // All tasks mapped into slots that have dropdowns
 // Open tasks page we just see dropdowns
@@ -14,12 +16,16 @@ import styles from "../../styles/TaskView.module.css";
 
 const TaskView: React.FC = () => {
     const { tasks } = useTasks();
+    // We create a new instantiation of the useEditModal hook which we will use to manage the
+    // state of this specific Modal component
+    const { openModal, closeModal, selectedTask, showModal } = useEditModal();
     const params = useParams();
     const focusedTaskName = params.taskName;
     console.log(focusedTaskName);
 
     return (
         <Container className="mt-5">
+            <TaskEditModal show={showModal} task={selectedTask} onHide={closeModal}></TaskEditModal>
             <Row>
                 {tasks.map((t) => (
                     <Col key={t.name} xs={12} md={4}>
@@ -29,7 +35,9 @@ const TaskView: React.FC = () => {
                             <Card.Footer style={{ backgroundColor: t.taskColor ? t.taskColor : undefined }}>
                                 Group: <b>{t.taskGroup}</b>
                             </Card.Footer>
-                            <Button className="w-50 m-2 mx-auto">Edit</Button>
+                            <Button className="w-50 m-2 mx-auto" onClick={() => openModal(t)}>
+                                Edit
+                            </Button>
                         </Card>
                     </Col>
                 ))}

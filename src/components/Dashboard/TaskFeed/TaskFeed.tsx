@@ -14,7 +14,7 @@ const TaskFeed: React.FC = () => {
     const navigate = useNavigate();
 
     const navigateToTaskViewForSpecificTask = (taskName: string) => {
-        navigate(`/taskview/${taskName}`);
+        navigate(`/tasks/${taskName}`);
     };
 
     return (
