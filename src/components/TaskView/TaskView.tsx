@@ -21,27 +21,55 @@ const TaskView: React.FC = () => {
     const { openModal, closeModal, selectedTask, showModal } = useEditModal();
     const params = useParams();
     const focusedTaskName = params.taskName;
-    console.log(focusedTaskName);
+    const numTasks = tasks.length;
 
     return (
         <Container className="mt-5">
             <TaskEditModal show={showModal} task={selectedTask} onHide={closeModal}></TaskEditModal>
-            <Row>
-                {tasks.map((t) => (
-                    <Col key={t.name} xs={12} md={4}>
-                        <Card className={focusedTaskName && t.name === focusedTaskName ? styles.focusedAnimation : ""}>
-                            <Card.Header>{t.name} {t.completed? "✅":"❌"}</Card.Header>
-                            <Card.Body>{t.description}</Card.Body>
-                            <Card.Footer style={{ backgroundColor: t.taskColor ? t.taskColor : undefined }}>
-                                Group: <b>{t.taskGroup}</b>
-                            </Card.Footer>
-                            <Button className="w-50 m-2 mx-auto" onClick={() => openModal(t)}>
-                                Edit
-                            </Button>
-                        </Card>
-                    </Col>
-                ))}
-            </Row>
+            {numTasks ? (
+                <Row>
+                    {tasks.map((t) => (
+                        <Col key={t.name} xs={12} md={3}>
+                            <Card className={focusedTaskName && t.name === focusedTaskName ? styles.focusedAnimation : ""}>
+                                <Card.Header className="text-center">
+                                    <b>{t.name}</b>
+                                </Card.Header>
+                                <Card.Footer style={{ backgroundColor: t.taskColor ? t.taskColor : undefined }}>
+                                    <b>Group: </b>
+                                    {t.taskGroup}
+                                </Card.Footer>
+                                <Card.Body>
+                                    <b>Description: </b>
+                                    {t.description}
+                                    <br />
+                                    <br />
+                                    <b>Completed: </b>
+                                    {t.completed ? "✅" : "❌"}
+                                    <br />
+                                </Card.Body>
+                                <Card.Footer className="text-center">
+                                    <Button className="w-50 m-2 mx-auto" onClick={() => openModal(t)}>
+                                        Edit
+                                    </Button>
+                                </Card.Footer>
+                            </Card>
+                        </Col>
+                    ))}
+                </Row>
+            ) : (
+                <>
+                    <Row>
+                        <Col className="text-primary text-center">
+                            <h2>You have no Tasks!</h2>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className="text-secondary text-center">
+                            <h2>Try making some in the Dashboard.</h2>
+                        </Col>
+                    </Row>
+                </>
+            )}
         </Container>
     );
 };
