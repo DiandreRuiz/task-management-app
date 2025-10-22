@@ -30,7 +30,7 @@ const TaskView: React.FC = () => {
                 {tasks.map((t) => (
                     <Col key={t.name} xs={12} md={4}>
                         <Card className={focusedTaskName && t.name === focusedTaskName ? styles.focusedAnimation : ""}>
-                            <Card.Header>{t.name}</Card.Header>
+                            <Card.Header>{t.name} {t.completed? "✅":"❌"}</Card.Header>
                             <Card.Body>{t.description}</Card.Body>
                             <Card.Footer style={{ backgroundColor: t.taskColor ? t.taskColor : undefined }}>
                                 Group: <b>{t.taskGroup}</b>
