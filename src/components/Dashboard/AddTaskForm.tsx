@@ -7,32 +7,45 @@ const AddTaskForm: React.FC = () => {
     const [taskName, setTaskName] = useState<string>("");
     const [taskDescription, setTaskDescription] = useState<string>("");
     const [taskGroup, setTaskGroup] = useState<string>("");
+    const [errorState, setErrorState] = useState<string | null>(null);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-        e.preventDefault();
-        if (taskName.trim() === "" || taskDescription.trim() === "") {
-            return;
+        try {
+            e.preventDefault();
+            if (taskName.trim() === "" || taskDescription.trim() === "") {
+                return;
+            }
+            if (tasks.some((t) => t.name === taskName)) {
+                // Lazy alert lol
+                alert("Task name already exists");
+                return;
+            }
+            // Task color assignment is handled by task group reconcilation within context
+            addTask({
+                name: taskName,
+                description: taskDescription,
+                completed: false,
+                taskGroup: taskGroup ? taskGroup : null,
+                owner: null,
+                taskColor: null,
+            });
+            setTaskName("");
+            setTaskDescription("");
+            setTaskGroup("");
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                setErrorState(error.message);
+            } else {
+                setErrorState(String(error));
+            }
         }
-        if (tasks.some((t) => t.name === taskName)) {
-            // Lazy alert lol
-            alert("Task name already exists");
-            return;
-        }
-        // Task color assignment is handled by task group reconcilation within context
-        addTask({
-            name: taskName,
-            description: taskDescription,
-            completed: false,
-            taskGroup: taskGroup ? taskGroup : null,
-            owner: null,
-            taskColor: null,
-        });
-        setTaskName("");
-        setTaskDescription("");
-        setTaskGroup("");
     };
 
-    return (
+    return errorState ? (
+        <div className="alert alert-danger" role="alert">
+            {errorState}
+        </div>
+    ) : (
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="taskName">
                 <Form.Label>Task Name</Form.Label>
