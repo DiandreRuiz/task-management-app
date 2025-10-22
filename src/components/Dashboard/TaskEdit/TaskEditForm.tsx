@@ -16,6 +16,7 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
     const [taskDescription, setTaskDescription] = useState(description);
     const [taskCompleted, setTaskCompleted] = useState(completed);
     const [taskGroupState, setTaskGroupState] = useState(taskGroup ? taskGroup : "");
+    const [errorState, setErrorState] = useState<string | null>(null);
 
     // Store original values for comparison
     const originalValues = {
@@ -47,47 +48,58 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
 
-        // Build updates object with only changed and non-null values
-        const updates: Partial<Task> = {};
+        try {
+            // Build updates object with only changed and non-null values
+            const updates: Partial<Task> = {};
 
-        // Check if name changed and is not empty
-        if (taskName !== originalValues.name && taskName.trim() !== "") {
-            updates.name = taskName.trim();
-        }
+            // Check if name changed and is not empty
+            if (taskName !== originalValues.name && taskName.trim() !== "") {
+                updates.name = taskName.trim();
+            }
 
-        // Check if description changed and is not empty
-        if (taskDescription !== originalValues.description && taskDescription.trim() !== "") {
-            updates.description = taskDescription.trim();
-        }
+            // Check if description changed and is not empty
+            if (taskDescription !== originalValues.description && taskDescription.trim() !== "") {
+                updates.description = taskDescription.trim();
+            }
 
-        // Check if completed status changed
-        if (taskCompleted !== originalValues.completed) {
-            updates.completed = taskCompleted;
-        }
+            // Check if completed status changed
+            if (taskCompleted !== originalValues.completed) {
+                updates.completed = taskCompleted;
+            }
 
-        // Check if taskGroup changed (handle null/empty string conversion)
-        const originalTaskGroup = originalValues.taskGroup;
-        const newTaskGroup = taskGroupState.trim() === "" ? null : taskGroupState.trim();
+            // Check if taskGroup changed (handle null/empty string conversion)
+            const originalTaskGroup = originalValues.taskGroup;
+            const newTaskGroup = taskGroupState.trim() === "" ? null : taskGroupState.trim();
 
-        if (newTaskGroup !== originalTaskGroup) {
-            updates.taskGroup = newTaskGroup;
-        }
+            if (newTaskGroup !== originalTaskGroup) {
+                updates.taskGroup = newTaskGroup;
+            }
 
-        // Only update if there are actual changes
-        if (Object.keys(updates).length > 0) {
-            updateTask(name, updates);
-            console.log("Updated task with changes:", updates);
-        } else {
-            console.log("No changes detected, skipping update");
-        }
+            // Only update if there are actual changes
+            if (Object.keys(updates).length > 0) {
+                updateTask(name, updates);
+                console.log("Updated task with changes:", updates);
+            } else {
+                console.log("No changes detected, skipping update");
+            }
 
-        // Close the modal after saving (whether changes were made or not)
-        if (onSave) {
-            onSave();
+            setErrorState(null);
+            onSave?.();
+            // Close the modal after saving (whether changes were made or not)
+        } catch (error: unknown) {
+            if (error instanceof Error) {
+                setErrorState(error.message);
+            } else {
+                setErrorState(String(error));
+            }
         }
     };
 
-    return (
+    return errorState ? (
+        <div className="alert alert-danger" role="alert">
+            {errorState}
+        </div>
+    ) : (
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="taskName">
                 <Form.Label>Task Name</Form.Label>

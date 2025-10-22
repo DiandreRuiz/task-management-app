@@ -7,12 +7,12 @@ const LogoutButton: React.FC = () => {
     const handleLogout = async () => {
         await logout({
             logoutParams: {
-                returnTo: "/",
+                returnTo: window.location.origin,
             },
         });
     };
     if (isAuthenticated) return <Button onClick={handleLogout}>Logout</Button>;
-    return;
+    return null;
 };
 
 export default LogoutButton;
