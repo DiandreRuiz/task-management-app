@@ -33,18 +33,21 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 
     const updateTaskGroupDetails = useCallback(
         (task: Task) => {
+            // If there is not taskGroup then there should not be a color
             const currentTaskGroup = task.taskGroup;
-            if (currentTaskGroup !== null) {
-                const existingGroupColor = currentTaskGroup in assignedTaskColors ? assignedTaskColors[currentTaskGroup] : undefined;
-                if (existingGroupColor) {
-                    task.taskColor = existingGroupColor;
-                } else {
-                    const color = getRandomColor();
-                    task.taskColor = color;
-                    setAssignedTaskColors((prev) => ({ ...prev, [currentTaskGroup]: color }));
-                }
-            } else {
+            if (currentTaskGroup === null) {
                 task.taskColor = null;
+                return;
+            }
+
+            // If there is a taskGroup, check if there is an established color for it
+            const existingGroupColor = currentTaskGroup in assignedTaskColors ? assignedTaskColors[currentTaskGroup] : undefined;
+            if (existingGroupColor) {
+                task.taskColor = existingGroupColor;
+            } else {
+                const color = getRandomColor();
+                task.taskColor = color;
+                setAssignedTaskColors((prev) => ({ ...prev, [currentTaskGroup]: color }));
             }
         },
         [assignedTaskColors]
@@ -66,23 +69,16 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
 
     const updateTask = useCallback(
         (name: string, updates: Partial<Task>) => {
-            // 1. Find appropriate task to update
-            // 2a. If taskGroup is updated, run taskGroupDetails update function
-            // 3a. Add updates to context state
-            // 2b. If not add the updates to context state
             let taskToUpdate = tasks.find((t) => t.name === name);
             if (!taskToUpdate) {
                 alert(`Could not find task name: ${name}`);
                 return;
             }
-
             taskToUpdate = { ...taskToUpdate, ...updates };
-
             // If we change task group, make sure to run updateTaskGroupDetails
             if ("taskGroup" in updates) {
                 updateTaskGroupDetails(taskToUpdate);
             }
-
             setTasks((prev) => prev.map((task) => (task.name === name ? taskToUpdate : task)));
         },
         [tasks, updateTaskGroupDetails]
