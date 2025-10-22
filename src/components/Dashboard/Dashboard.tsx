@@ -17,14 +17,6 @@ const Dashboard: React.FC = () => {
                 </Row>
                 <Row className="justify-content-center mt-4">
                     <Col xs={12} md={6} className="w-auto">
-                        <h3>Task Feed</h3>
-                    </Col>
-                </Row>
-                <Row>
-                    <TaskFeed />
-                </Row>
-                <Row className="justify-content-center mt-4">
-                    <Col xs={12} md={6} className="w-auto">
                         <h3>Add Task</h3>
                     </Col>
                 </Row>
@@ -32,6 +24,14 @@ const Dashboard: React.FC = () => {
                     <Col xs={12} md={6} className="bg-light p-3 rounded-3">
                         <AddTaskForm />
                     </Col>
+                </Row>
+                <Row className="justify-content-center mt-4">
+                    <Col xs={12} md={6} className="w-auto">
+                        <h3>Task Feed</h3>
+                    </Col>
+                </Row>
+                <Row>
+                    <TaskFeed />
                 </Row>
             </Container>
         </>

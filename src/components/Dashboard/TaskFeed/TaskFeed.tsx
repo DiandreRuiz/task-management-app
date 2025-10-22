@@ -1,16 +1,18 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useTasks } from "../../../contexts/TaskContext";
 import TaskButtons from "./TaskButtons";
-import TaskEditModal from "../../TaskEdit/TaskEditModal";
+import TaskEditModal from "../TaskEdit/TaskEditModal";
 import type { Task } from "../../../contexts/TaskContext";
 
 const TaskFeed: React.FC = () => {
     const [showEditModal, setShowEditModal] = useState(false);
     const [selectedTask, setSelectedTask] = useState<Task | null>(null);
-    const { tasks, removeTask, viewTask } = useTasks();
+    const { tasks, removeTask } = useTasks();
+    const navigate = useNavigate();
 
     const handleEditTask = (task: Task) => {
         setSelectedTask(task);
@@ -20,6 +22,10 @@ const TaskFeed: React.FC = () => {
     const handleCloseModal = () => {
         setShowEditModal(false);
         setSelectedTask(null);
+    };
+
+    const navigateToTaskViewForSpecificTask = (taskName: string) => {
+        navigate(`/tasks/${taskName}`);
     };
 
     return (
@@ -38,7 +44,7 @@ const TaskFeed: React.FC = () => {
                             </p>
                         </Col>
                         <Col md={"auto"} xs={12} className="d-flex gap-3 w-auto align-items-center">
-                            <TaskButtons onView={() => viewTask(t.name)} onEdit={() => handleEditTask(t)} onDelete={() => removeTask(t.name)} />
+                            <TaskButtons onView={() => navigateToTaskViewForSpecificTask(t.name)} onEdit={() => handleEditTask(t)} onDelete={() => removeTask(t.name)} />
                         </Col>
                     </Row>
                 ))

@@ -1,7 +1,7 @@
 import React from "react";
 import Modal from "react-bootstrap/Modal";
 import TaskEditForm from "./TaskEditForm";
-import type { Task } from "../../contexts/TaskContext";
+import type { Task } from "../../../contexts/TaskContext";
 
 type TaskEditModalProps = {
     show: boolean;

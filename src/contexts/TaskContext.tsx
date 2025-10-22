@@ -84,7 +84,6 @@ export const TaskProvider = ({ children }: { children: React.ReactNode }) => {
         [tasks, updateTaskGroupDetails]
     );
 
-    // Need a function to view a task
     const viewTask = useCallback(
         (name: string): Task | null => {
             const task = tasks.find((t) => t.name === name);
