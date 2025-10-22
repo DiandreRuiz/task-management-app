@@ -32,9 +32,24 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
         taskGroup: taskGroup || null,
     };
 
-    const validate = () => {
-        if (!taskName.trim()) setValidationErrors((prev) => ({ ...prev, name: "Task name is required" }));
-        if (!taskDescription.trim()) setValidationErrors((prev) => ({ ...prev, description: "Task description is required" }));
+    const validate = (): boolean => {
+        const errors: ValidationErrorsType = { name: null, description: null };
+        let isValid = true;
+
+        // Check for empty task name
+        if (!taskName.trim()) {
+            errors.name = "Task name is required";
+            isValid = false;
+        }
+
+        // Check for empty task description
+        if (!taskDescription.trim()) {
+            errors.description = "Task description is required";
+            isValid = false;
+        }
+
+        setValidationErrors(errors);
+        return isValid;
     };
 
     // Check if form has any changes (is "dirty")
@@ -58,7 +73,9 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault();
-        validate();
+        if (!validate()) {
+            return; // Stop execution if validation fails
+        }
 
         try {
             // Build updates object with only changed and non-null values
@@ -116,12 +133,12 @@ const TaskEditForm: React.FC<TaskEditFormProps> = ({ name, description, complete
         <Form onSubmit={handleSubmit}>
             <Form.Group className="mb-3" controlId="taskName">
                 <Form.Label>Task Name</Form.Label>
-                <Form.Control type="text" placeholder={name} value={taskName} onChange={(e) => setTaskName(e.target.value)} required isInvalid={!validationErrors.name} />
+                <Form.Control type="text" placeholder={name} value={taskName} onChange={(e) => setTaskName(e.target.value)} required isInvalid={!!validationErrors.name} />
                 <Form.Control.Feedback type="invalid">{validationErrors.name}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="taskDescription">
                 <Form.Label>Task Description</Form.Label>
-                <Form.Control type="text" placeholder={description} value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} required isInvalid={!validationErrors.description} />
+                <Form.Control type="text" placeholder={description} value={taskDescription} onChange={(e) => setTaskDescription(e.target.value)} required isInvalid={!!validationErrors.description} />
                 <Form.Control.Feedback type="invalid">{validationErrors.description}</Form.Control.Feedback>
             </Form.Group>
             <Form.Group className="mb-3" controlId="taskCompleted">
