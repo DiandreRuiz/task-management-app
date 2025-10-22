@@ -1,36 +1,25 @@
-import React, { useState } from "react";
+import React from "react";
 import { useNavigate } from "react-router-dom";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import { useTasks } from "../../../contexts/TaskContext";
+import { useEditModal } from "../../../hooks/useTaskEditModal";
 import TaskButtons from "./TaskButtons";
 import TaskEditModal from "../TaskEdit/TaskEditModal";
-import type { Task } from "../../../contexts/TaskContext";
 
 const TaskFeed: React.FC = () => {
-    const [showEditModal, setShowEditModal] = useState(false);
-    const [selectedTask, setSelectedTask] = useState<Task | null>(null);
     const { tasks, removeTask } = useTasks();
+    const { openModal, closeModal, selectedTask, showModal } = useEditModal();
     const navigate = useNavigate();
 
-    const handleEditTask = (task: Task) => {
-        setSelectedTask(task);
-        setShowEditModal(true);
-    };
-
-    const handleCloseModal = () => {
-        setShowEditModal(false);
-        setSelectedTask(null);
-    };
-
     const navigateToTaskViewForSpecificTask = (taskName: string) => {
-        navigate(`/tasks/${taskName}`);
+        navigate(`/taskview/${taskName}`);
     };
 
     return (
         <Container>
-            <TaskEditModal show={showEditModal} onHide={handleCloseModal} task={selectedTask} />
+            <TaskEditModal show={showModal} onHide={closeModal} task={selectedTask} />
             {tasks.length === 0 ? (
                 <Row className="text-center mt-3">
                     <p className="text-muted">No tasks yet. Add some tasks to get started!</p>
@@ -44,7 +33,7 @@ const TaskFeed: React.FC = () => {
                             </p>
                         </Col>
                         <Col md={"auto"} xs={12} className="d-flex gap-3 w-auto align-items-center">
-                            <TaskButtons onView={() => navigateToTaskViewForSpecificTask(t.name)} onEdit={() => handleEditTask(t)} onDelete={() => removeTask(t.name)} />
+                            <TaskButtons onView={() => navigateToTaskViewForSpecificTask(t.name)} onEdit={() => openModal(t)} onDelete={() => removeTask(t.name)} />
                         </Col>
                     </Row>
                 ))

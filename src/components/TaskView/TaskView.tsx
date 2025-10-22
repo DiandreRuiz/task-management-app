@@ -5,6 +5,7 @@ import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
+import Button from "react-bootstrap/Button";
 import styles from "../../styles/TaskView.module.css";
 
 // All tasks mapped into slots that have dropdowns
@@ -28,6 +29,7 @@ const TaskView: React.FC = () => {
                             <Card.Footer style={{ backgroundColor: t.taskColor ? t.taskColor : undefined }}>
                                 Group: <b>{t.taskGroup}</b>
                             </Card.Footer>
+                            <Button className="w-50 m-2 mx-auto">Edit</Button>
                         </Card>
                     </Col>
                 ))}

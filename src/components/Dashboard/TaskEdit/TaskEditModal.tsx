@@ -10,6 +10,7 @@ type TaskEditModalProps = {
 };
 
 const TaskEditModal: React.FC<TaskEditModalProps> = ({ show, onHide, task }) => {
+    
     if (!task) return null; // Don't render if no task selected
 
     return (
