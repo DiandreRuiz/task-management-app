@@ -14,7 +14,7 @@ function AppNavbar() {
     return (
         <Navbar bg="dark" variant="dark" expand="lg" fixed="top" expanded={navExpanded} onToggle={() => setNavExpanded(!navExpanded)}>
             <Container>
-                <Navbar.Brand href="#home">Task Management App</Navbar.Brand>
+                <Navbar.Brand href="/">Task Management App</Navbar.Brand>
                 <Navbar.Toggle aria-controls="basic-navbar-nav" />
                 <Navbar.Collapse id="basic-navbar-nav">
                     <Nav className="ms-auto">
